@@ -1,81 +1,75 @@
 ---
-title: Importing a Large Site
-description: Learn how to import a large Drupal or WordPress site into Pantheon outside of the Dashboard.
+title: Migrating to Pantheon: Manual Site Import
+description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Dashboard
 category:
   - getting-started
   - developing
-keywords: import, importing site, pantheon, new site, large site
+keywords: import, importing site, pantheon, new site, large site, distro, upstream
 ---
+When to use Manual Site Import:
 
-This article covers the techniques required to import a large site into Pantheon outside of the Pantheon Dashboard. Follow this procedure if:
+* **Large Site Archives**: If a site archive is greater than the automated import limits (100MB for direct file upload or 500MB for URL upload).
+* **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly, or your agency's customized WordPress)
 
-* Your site’s code, files, or SQL archive is greater than 100MB (the direct file upload import size limit).
-* Your site’s code, files, or SQL archive is greater than 500MB (the URL upload import file limit).
+If your existing site is based on vanilla Drupal or WordPress and has smaller site archives you can follow this article, but you might prefer [automated import](/docs/articles/sites/migrate/#import-archives).
 
 ## Requirements
 
-1. Intermediate to advanced [Git](http://git-scm.com/) command line interface (CLI) knowledge.
-2. Familiarity with using [bash](http://www.gnu.org/software/bash/) and [rsync](http://rsync.samba.org/) or an FTP program that supports [SFTP](http://en.wikipedia.org/wiki/SFTP).
-3. Intermediate to advanced [MySQL CLI](https://mariadb.com/kb/en/mariadb/documentation/clients-and-utilities/mysql-client/mysql-command-line-client/) knowledge.
-4. Access to the code, database, and files of the site being imported.  
+* [Git](/docs/articles/local/starting-with-git/)
+* [Rsync or SFTP Client](https://pantheon.io/docs/articles/local/rsync-and-sftp/)
+* [MySQL Client](https://pantheon.io/docs/articles/local/accessing-mysql-databases/)
 
-## Create A New Pantheon Site  
+## Create A New Pantheon Site and "Start from Scratch"  
 
-From your Pantheon Dashboard, choose **Create a new site**. Name your site, select **Start from scratch**, and choose your starting codebase. After the site is created, switch the site's connection mode from SFTP to Git.  
+From your Pantheon Dashboard:
+
+* Choose **Create a new site**.
+* Name your site
+* Select **Start from scratch**, and choose your starting codebase.
+
+Starting from scratch allows your site to be connected to that upstream so you can later [apply upstream updates](/docs/articles/sites/code/applying-upstream-updates/) from your dashboard with one click.
 
 ## Import the Codebase
 
 **Codebase** - all executable code, including core, custom and contrib modules or plugins, themes, and libraries.
 
-As long as you've chosen the same codebase (Drupal 7, Commerce Kickstarter, etc.) as the starting point of your Pantheon site, you can use Git to import your existing code with commit history intact. If you don’t have a version controlled codebase, the following will still work, though there won’t be a commit history for Pantheon’s Git repository to reference.
+As long as you've chosen the same codebase (Drupal 7, Commerce Kickstart, etc.) as the starting point of your Pantheon site, you can use Git to import your existing code and commit history. If you don’t have a Git version controlled codebase, the following will still work.
 
 1. Go to your code directory within your terminal.
-2. Bring in the Pantheon core files. If your existing site code is not version controlled with Git, run 'git init' first.
-3. From your site's Dashboard, go to the **Dev** environment.
-4. Click **Settings**, then select **About Site**.
-5. Place your mouse over the upstream value, left click and select **Copy link** to get the site's Pantheon upstream location.  
+2. If your existing site code is not version controlled with Git, run: ```git init```
+3. From the Site Dashboard, go to the **Dev** environment.
+4. Switch the site's connection mode from SFTP to Git.
+5. Get upstream's Git connection string
+ - From Site Dashboard: Click **Settings** >> **About Site**.
+ -  Place your mouse over the upstream value, left click and select **Copy link** to get the site's Pantheon upstream location.  
  ![](/source/docs/assets/images/pantheon-dashboard-settings-about-site-upstream.png)  
-6. The following Git command pulls in the Pantheon Drupal 7 specific core. Replace the {paste-value-here} with the link from step 5:
+ - Replace "http" with "git" and then add ".git" to the end of the URL you just copied. For example, if your site is based on Drupal 7 upstream, the URL will go from this: `http://github.com/pantheon-systems/drops-7 to 'git://github.com/pantheon-systems/drops-7.git'
+6. Use Git to pull in the upstream's code (which may have Pantheon-specific optimizations) to your existing site's codebase, using the string you created in step 5:
 
-**Original:**
-
-```bash
-git pull --no-rebase -Xtheirs --squash {paste-value-here} master
-```
-**Updated:**
-
-```bash
-git pull --no-rebase -Xtheirs --squash http://github.com/pantheon-systems/drops-7 master
-```
-<div class="alert alert-warning" role="alert">
-<h4>Note</h4>
-Replace "http" with "git" and then add ".git" to the end of the URL you just pasted. The URL will go from this: <code>http://github.com/pantheon-systems/drops-7</code> to <code>git://github.com/pantheon-systems/drops-7.git</code>.</div>
-
-**Final Command:**
-
+For example, if your upstream is Drupal 7 running:
 ```bash
 git pull --no-rebase -Xtheirs --squash git://github.com/pantheon-systems/drops-7.git master
 ```  
 
-Once executed, Pantheon pulls in your core files, but doesn't commit them; you will be able to do a final review. You will see this message when it's done:  
+Will Output:  
 ```bash
 Squash commit -- not updating HEAD  
 Automatic merge went well; stopped before committing as requested
 ```
 
-7. From your Pantheon Dashboard, go to the **Dev** tab and select **Code**. Make sure your site is in Git mode, and copy the Git connection information found to the right of the Git tab.
+7. From your Pantheon Site Dashboard, go to the **Dev** tab and select **Code**. Make sure your site is in Git mode, and copy the Git connection information listed under Git SSH clone URL:
 
   ![](/source/docs/assets/images/pantheon-dashboard-git-connection-info.png)
 
-8. From your terminal within the site directory, use the Git remote add command with an alias to make sure you know when you are moving code to or from Pantheon. Replace the pantheon-site-git-repo-information with the Git information from the previous step.  
-  **From:**
+8. From your terminal within the site directory, use the Git remote add command with an alias to make sure you know when you are moving code to or from Pantheon:
+
  ```bash
- git remote add pantheon pantheon-site-git-repo-information
+ git remote add pantheon <Git SSH Clone URL from Pantheon Dashboard>
  ```
 
-  **To:**
+  **Example:**
   ```bash
-  git remote add pantheon ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}.drush.in:2222/~/repository.git pantheon-new-site-import
+  git remote add pantheon ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}.drush.in:2222/~/repository.git site-name
   ```
 
   <div class="alert alert-warning" role="alert">
@@ -103,7 +97,7 @@ git remote add pantheon ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}
 
 **Files** - anything in `sites/default/files` for Drupal or `wp-content/uploads` for WordPress. This houses a combination of uploaded content from site users, along with generated stylesheets, aggregated scripts, image styles, etc. For information on highly populated directories, see [Known Limitations](/docs/articles/sites/known-limitations/#highly-populated-directories).
 
-Files are stored separately from the site's code. Larger file structures can fail in the Dashboard import due to sheer volume. For these, it's best to use a utility such as an SFTP client or rsync. The biggest issue with these is having the transfer stopped due to connectivity issues. To handle that scenario, try this handy bash script:  
+Files are stored separately from the site's code. Larger file structures can fail in the Dashboard import due to sheer volume. It's best to use a utility such as an SFTP client or rsync. The biggest issue is having the transfer stopped due to connectivity issues. To handle that scenario, try this handy bash script:  
 
 ```bash
 ENV='ENV'
@@ -127,8 +121,9 @@ sleep 180
 fi
 done
 ```
-This connects to your Pantheon site's Dev environment and starts uploading your files. If an error occurs during transfer, rather than stopping completely, it waits for 180 seconds and picks up where it left off.  
-If you are unfamiliar or uncomfortable with bash and rsync, an FTP client that supports SFTP, such as FileZilla, is a good option. To do this, [switch your site to SFTP](/docs/articles/sites/code/developing-directly-with-sftp-mode#enabling-sftp-mode) and then using your site's SFTP connection information, connect to your site with your SFTP client. Navigate to `/code/sites/default/files/`. You can now start your file upload.  
+This script connects to your Pantheon site's Dev environment and starts uploading your files. If an error occurs during transfer, rather than stopping, it waits 180 seconds and picks up where it left off.  
+
+If you are unfamiliar or uncomfortable with bash and rsync, an FTP client that supports SFTP, such as FileZilla, is a good option. Find your Dev environment's SFTP connection info and connect with your SFTP client. Navigate to `/code/sites/default/files/`. You can now start your file upload.  
 
 ## Database  
 
@@ -136,40 +131,8 @@ If you are unfamiliar or uncomfortable with bash and rsync, an FTP client that s
 
 You'll need a .sql file containing the data from the site you want to import. If you haven't done so already, make sure you remove any data from the cache tables. That will make your .sql file much smaller and your import that much quicker.
 
-### Connect via Drush
-1. Set up the aliases by running the three commands shown below:
 
- ```
- terminus auth login
- terminus sites aliases
- drush cc drush
- ```
-2. Use Drush sql-connect to generate the MySQL command line options.
-
- ```
- export SITENAME='your-site'
- export ENV="dev"
- $(drush @pantheon.$SITENAME.$ENV sql-connect) < your-local-site-db-dump.sql
- ```
-
-### Connect via wp-cli
-
-### Import with Drush `sql-connect`
-Use [Terminus](https://github.com/pantheon-systems/cli) to update your local aliases file:
-```
-$ terminus auth login
-$ terminus sites aliases
-```
-Replace `database.sql` with the path to your local `.sql` archive and run:
-```
-export SITENAME='your-site'
-export ENV="dev"
-$(drush @pantheon.$SITENAME.$ENV sql-connect) < database.sql
-```
-
-### Import with MySQL CLI
-
-1. From the Dev environment on the site Dashboard, click **Connection Info** and copy the connection string. It will look similar to this:
+1. From the Dev environment on the site Dashboard, click **Connection Info** and copy the Database connection string. It will look similar to this:
 
  ```
  mysql -u pantheon -p{massive-random-pw} -h dbserver.dev.{site-id}.drush.in -P {site-port} pantheon
