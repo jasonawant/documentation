@@ -1,17 +1,15 @@
 ---
 title: Migrating to Pantheon: Manual Site Import
-description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Dashboard
-category:
-  - getting-started
-  - developing
+description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Dashboard.
 keywords: import, importing site, pantheon, new site, large site, distro, upstream
 ---
+
 When to use Manual Site Import:
 
 * **Large Site Archives**: If a site archive is greater than the automated import limits (100MB for direct file upload or 500MB for URL upload).
-* **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly, or your agency's customized WordPress)
+* **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly, or your agency's customized WordPress).
 
-If your existing site is based on vanilla Drupal or WordPress and has smaller site archives you can follow this article, but you might prefer [automated import](/docs/articles/sites/migrate/#import-archives).
+If your existing site is based on vanilla Drupal or WordPress and has smaller site archives, follow the instructions below or use [automated import](/docs/articles/sites/migrate/#import-archives).
 
 ## Requirements
 
@@ -19,15 +17,15 @@ If your existing site is based on vanilla Drupal or WordPress and has smaller si
 * [Rsync or SFTP Client](https://pantheon.io/docs/articles/local/rsync-and-sftp/)
 * [MySQL Client](https://pantheon.io/docs/articles/local/accessing-mysql-databases/)
 
-## Create A New Pantheon Site and "Start from Scratch"  
+## Create a New Pantheon Site and Start from Scratch 
 
 From your Pantheon Dashboard:
 
 * Choose **Create a new site**.
-* Name your site
+* Name your site.
 * Select **Start from scratch**, and choose your starting codebase.
 
-Starting from scratch allows your site to be connected to that upstream so you can later [apply upstream updates](/docs/articles/sites/code/applying-upstream-updates/) from your dashboard with one click.
+Starting from scratch allows your site to connect to that upstream so you can later [apply upstream updates](/docs/articles/sites/code/applying-upstream-updates/) from your Dashboard with one click.
 
 ## Import the Codebase
 
@@ -39,8 +37,8 @@ As long as you've chosen the same codebase (Drupal 7, Commerce Kickstart, etc.) 
 2. If your existing site code is not version controlled with Git, run: ```git init```
 3. From the Site Dashboard, go to the **Dev** environment.
 4. Switch the site's connection mode from SFTP to Git.
-5. Get upstream's Git connection string
- - From Site Dashboard: Click **Settings** >> **About Site**.
+5. Get the upstream's Git connection string:
+ - From the Site Dashboard: Click **Settings** >> **About Site**.
  -  Place your mouse over the upstream value, left click and select **Copy link** to get the site's Pantheon upstream location.  
  ![](/source/docs/assets/images/pantheon-dashboard-settings-about-site-upstream.png)  
  - Replace "http" with "git" and then add ".git" to the end of the URL you just copied. For example, if your site is based on Drupal 7 upstream, the URL will go from this: `http://github.com/pantheon-systems/drops-7 to 'git://github.com/pantheon-systems/drops-7.git'
@@ -51,7 +49,7 @@ For example, if your upstream is Drupal 7 running:
 git pull --no-rebase -Xtheirs --squash git://github.com/pantheon-systems/drops-7.git master
 ```  
 
-Will Output:  
+Will output:  
 ```bash
 Squash commit -- not updating HEAD  
 Automatic merge went well; stopped before committing as requested
