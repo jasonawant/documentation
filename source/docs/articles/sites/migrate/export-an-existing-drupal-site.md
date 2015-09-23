@@ -132,4 +132,4 @@ Only provide one `.sql` file; if multiple are present the import will fail.
 
 ## Next Steps
 - [Migrate Sites to Pantheon](/docs/articles/sites/migrate#move-in)
-- [Migrate to Pantheon: Manual Site Import Outside of the Pantheon Dashboard](/docs/articles/sites/migrate/manual-site-import/)
+- [Migrate to Pantheon: Manual Site Import](/docs/articles/sites/migrate/manual-site-import/)
