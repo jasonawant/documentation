@@ -1,15 +1,13 @@
 ---
-title: Migrating to Pantheon: Manual Site Import
-description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Dashboard.
-keywords: import, importing site, pantheon, new site, large site, distro, upstream
+title: Migrate to Pantheon: Manual Site Import
+description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Importer Tool.
+keywords: import, importing site, pantheon, new site, large site, distro, upstream, git history
 ---
+Manually import your site to Pantheon outside of the provided [Importer Tool](/docs/articles/sites/migrate/#plan-the-import) when any of the following apply:
 
-When to use Manual Site Import:
-
-* **Large Site Archives**: If a site archive is greater than the automated import limits (100MB for direct file upload or 500MB for URL upload).
+* **Large Site Archives**: Site archive is greater than the automated import limits (100MB for direct file upload or 500MB for URL upload).
 * **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly, or your agency's customized WordPress).
-
-If your existing site is based on vanilla Drupal or WordPress and has smaller site archives, follow the instructions below or use [automated import](/docs/articles/sites/migrate/#import-archives).
+* **Preserve Git History**: Site's existing Git commit history should be retained
 
 ## Requirements
 
@@ -17,7 +15,7 @@ If your existing site is based on vanilla Drupal or WordPress and has smaller si
 * [Rsync or SFTP Client](https://pantheon.io/docs/articles/local/rsync-and-sftp/)
 * [MySQL Client](https://pantheon.io/docs/articles/local/accessing-mysql-databases/)
 
-## Create a New Pantheon Site and Start from Scratch 
+## Create a New Pantheon Site and Start from Scratch
 
 From your Pantheon Dashboard:
 
