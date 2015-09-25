@@ -68,7 +68,7 @@ Manually import the site outside of our Importer Tool if any of the following ap
 - Your site requires an upstream to an organizational or public distribution.
 - You would like to preserve the site's existing git history.
 
-Import code, database, and files after creating the site using a combination of command-line tools (git, mysql-cli, and rsync) or with Git and the site dashboard's workflow tool. See [Migrate to Pantheon: Manual Site Import](/docs/articles/sites/migrate/manual-site-import) for detailed instructions.
+Import code, database, and files after creating the site using a combination of command-line tools (git, mysql-cli, and rsync) or with Git and the Site Dashboard's workflow tool. See [Migrate to Pantheon: Manual Site Import](/docs/articles/sites/migrate/manual-site-import) for detailed instructions.
 
 ### Create Single-file Archives
 Migrations using the importer: sites that can be packaged with a total archived size less than 500MB are able to use single-file archives during the import process. You can create these archives with [Drush](/docs/articles/sites/migrate/export-an-existing-drupal-site#create-archive-using-drush) or [Backup and Migrate](/docs/articles/sites/migrate/export-an-existing-drupal-site#create-archive-using-backup-and-migrate) for Drupal sites, and [Plugins](/docs/articles/sites/migrate/export-an-existing-wordpress-site#export-wordpress-via-plugins) for WordPress.
