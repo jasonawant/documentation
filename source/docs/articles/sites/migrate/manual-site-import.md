@@ -3,11 +3,12 @@ title: Migrate to Pantheon: Manual Site Import
 description: Learn how to import a Drupal or WordPress site into Pantheon outside of the Importer Tool.
 keywords: import, importing site, pantheon, new site, large site, distro, upstream, git history
 ---
+
 Manually import your site to Pantheon outside of the provided [Importer Tool](/docs/articles/sites/migrate/#plan-the-import) when any of the following apply:
 
 * **Large Site Archives**: Site archive is greater than the automated import limits (100MB for direct file upload or 500MB for URL upload).
-* **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly, or your agency's customized WordPress).
-* **Preserve Git History**: Site's existing Git commit history should be retained
+* **Custom Upstream**: Site should receive updates based on an upstream other than vanilla Drupal or WordPress (e.g Panopoly or your agency's customized WordPress).
+* **Preserve Git History**: Site's existing Git commit history should be retained.
 
 ## Requirements
 
@@ -36,13 +37,13 @@ As long as you've chosen the same codebase (Drupal 7, Commerce Kickstart, etc.) 
 3. From the Site Dashboard, go to the **Dev** environment.
 4. Switch the site's connection mode from SFTP to Git.
 5. Get the upstream's Git connection string:
- - From the Site Dashboard: Click **Settings** >> **About Site**.
- -  Place your mouse over the upstream value, left click and select **Copy link** to get the site's Pantheon upstream location.  
+ - From the Site Dashboard: Click **Settings** > **About Site**.
+ -  Place your mouse over the upstream value, left-click and select **Copy link** to get the site's Pantheon upstream location.  
  ![](/source/docs/assets/images/pantheon-dashboard-settings-about-site-upstream.png)  
  - Replace "http" with "git" and then add ".git" to the end of the URL you just copied. For example, if your site is based on Drupal 7 upstream, the URL will go from this: `http://github.com/pantheon-systems/drops-7 to 'git://github.com/pantheon-systems/drops-7.git'
 6. Use Git to pull in the upstream's code (which may have Pantheon-specific optimizations) to your existing site's codebase, using the string you created in step 5:
 
-For example, if your upstream is Drupal 7 running:
+For example, if your upstream is running Drupal 7:
 ```bash
 git pull --no-rebase -Xtheirs --squash git://github.com/pantheon-systems/drops-7.git master
 ```  
@@ -125,15 +126,15 @@ If you are unfamiliar or uncomfortable with bash and rsync, an FTP client that s
 
 **Database** - a single .sql dump that contains the content and active state of the site's configurations.
 
-You'll need a .sql file containing the data from the site you want to import. If you haven't done so already, make sure you remove any data from the cache tables. That will make your .sql file much smaller and your import that much quicker.
+You'll need an .sql file containing the data from the site you want to import. If you haven't done so already, make sure you remove any data from the cache tables. That will make your .sql file much smaller and your import that much quicker.
 
 
-1. From the Dev environment on the site Dashboard, click **Connection Info** and copy the Database connection string. It will look similar to this:
+1. From the Dev environment on the Site Dashboard, click **Connection Info** and copy the Database connection string. It will look similar to this:
 
  ```
  mysql -u pantheon -p{massive-random-pw} -h dbserver.dev.{site-id}.drush.in -P {site-port} pantheon
  ```
-2. From terminal, `cd` into the directory containing your `.sql` archive. Paste the connection string and ammend it with:
+2. From your terminal, `cd` into the directory containing your `.sql` archive. Paste the connection string and append it with:
 `< database.sql`
 Your command will now look like:
 
