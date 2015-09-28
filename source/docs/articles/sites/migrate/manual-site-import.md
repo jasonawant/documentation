@@ -15,6 +15,7 @@ Manually import your site to Pantheon outside of the provided [Importer Tool](/d
 * [Git](/docs/articles/local/starting-with-git/)
 * [Rsync or SFTP Client](https://pantheon.io/docs/articles/local/rsync-and-sftp/)
 * [MySQL Client](https://pantheon.io/docs/articles/local/accessing-mysql-databases/)
+* [SSH Key](/docs/articles/users/loading-ssh-keys)
 
 ## Create a New Pantheon Site and Start from Scratch
 
@@ -32,63 +33,47 @@ Starting from scratch allows your site to connect to that upstream so you can la
 
 As long as you've chosen the same codebase (Drupal 7, Commerce Kickstart, etc.) as the starting point of your Pantheon site, you can use Git to import your existing code and commit history. If you don’t have a Git version controlled codebase, the following will still work.
 
-1. Go to your code directory within your terminal.
-2. If your existing site code is not version controlled with Git, run: ```git init```
-3. From the Site Dashboard, go to the **Dev** environment.
-4. Switch the site's connection mode from SFTP to Git.
-5. Get the upstream's Git connection string:
- - From the Site Dashboard: Click **Settings** > **About Site**.
- -  Place your mouse over the upstream value, left-click and select **Copy link** to get the site's Pantheon upstream location.  
- ![](/source/docs/assets/images/pantheon-dashboard-settings-about-site-upstream.png)  
- - Replace "http" with "git" and then add ".git" to the end of the URL you just copied. For example, if your site is based on Drupal 7 upstream, the URL will go from this: `http://github.com/pantheon-systems/drops-7 to 'git://github.com/pantheon-systems/drops-7.git'
-6. Use Git to pull in the upstream's code (which may have Pantheon-specific optimizations) to your existing site's codebase, using the string you created in step 5:
-
-For example, if your upstream is running Drupal 7:
-```bash
-git pull --no-rebase -Xtheirs --squash git://github.com/pantheon-systems/drops-7.git master
-```  
-
-Will output:  
-```bash
-Squash commit -- not updating HEAD  
-Automatic merge went well; stopped before committing as requested
-```
-
-7. From your Pantheon Site Dashboard, go to the **Dev** tab and select **Code**. Make sure your site is in Git mode, and copy the Git connection information listed under Git SSH clone URL:
-
-  ![](/source/docs/assets/images/pantheon-dashboard-git-connection-info.png)
-
-8. From your terminal within the site directory, use the Git remote add command with an alias to make sure you know when you are moving code to or from Pantheon:
+1. Navigate to your existing site's code directory in a local terminal. If your existing code is not version controlled with Git, run:
 
  ```bash
- git remote add pantheon <Git SSH Clone URL from Pantheon Dashboard>
+ git init
+ ```
+2. From the Dev environment of the site Dashboard, set the site's [connection mode](/docs/articles/getting-started/#interact-with-your-code) to Git.
+3. Copy the SSH URL for the site repository, found in the [clone command](/docs/articles/local/starting-with-git/#step-2-copy-the-git-clone-command). **Do not copy `git clone` or the site name.** The URL should look similar to the following:
+
+ ```bash
+ ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}.drush.in:2222/~/repository.git
  ```
 
-  **Example:**
-  ```bash
-  git remote add pantheon ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}.drush.in:2222/~/repository.git site-name
-  ```
+4. Use Git to pull in the upstream's code (which may have Pantheon-specific optimizations) to your existing site's codebase, replacing `<ssh_url>` with the SSH URL copied in Step 3:
 
-  <div class="alert alert-warning" role="alert">
-  <h4>Note</h4>
-  Remove the site name from the end of the connection information, otherwise you will get an error and the command will fail. The final command will look like:</div>
+ ```bash
+ git pull --no-rebase --squash -Xtheirs <ssh_url> master
+ ```  
 
-```bash
-git remote add pantheon ssh://codeserver.dev.{site-id}@codeserver.dev.{site-id}.drush.in:2222/~/repository.git
-```
-
-9. Run git add and commit to prepare the Pantheon core merge for pushing to the repository:
+ Will yield:  
+ ```bash
+ Squash commit -- not updating HEAD  
+ Automatic merge went well; stopped before committing as requested
  ```
+5. Add Pantheon as a remote destination, replacing `<ssh_url>` with the SSH URL copied in Step 3:
+
+ ```bash
+ git remote add pantheon <ssh_url>
+ ```
+
+6. Run git add and commit to prepare the Pantheon core merge for pushing to the repository:
+ ```bash
  git add -A
- ```
- ```
  git commit -m "Adding Pantheon core files"
  ```
-10. Now pull from your Pantheon repository master branch: `git pull pantheon master`. Handle any conflicts as needed.  
-11. Git push back to your Pantheon site repository: `git push pantheon master`  
-12. Go to the Code tab of your Dev environment. You will see your site's pre-existing code commit history and the most recent commits adding Pantheon's core files.
+7. Push your newly merged codebase up to your Pantheon site repository:
 
-![Pantheon Dashboard with Commit Messages](/source/docs/assets/images/pantheon-dashboard-git-commit-messages.png)
+ ```bash
+ git push pantheon master
+ ```
+
+8. Go to the Code tab of your Dev environment on the site Dashboard. You will see your site's pre-existing code commit history and the most recent commit adding Pantheon's core files.
 
 ## Files
 
