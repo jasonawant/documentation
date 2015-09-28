@@ -15,7 +15,6 @@ Manually import your site to Pantheon outside of the provided [Importer Tool](/d
 * [Git](/docs/articles/local/starting-with-git/)
 * [Rsync or SFTP Client](https://pantheon.io/docs/articles/local/rsync-and-sftp/)
 * [MySQL Client](https://pantheon.io/docs/articles/local/accessing-mysql-databases/)
-* [SSH Key](/docs/articles/users/loading-ssh-keys)
 
 ## Create a New Pantheon Site and Start from Scratch
 
@@ -93,7 +92,7 @@ fi
 
 while [ 1 ]
 do
-sshpass -p "$PASSWORD" rsync --partial -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' $ENV.$SITE@appserver.$ENV.$SITE.drush.in:files/* ./files/
+sshpass -p "$PASSWORD" rsync --partial -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222'  $ENV.$SITE@appserver.$ENV.$SITE.drush.in:files/* --temp-dir=../tmp/  ./files/
 if [ "$?" = "0" ] ; then
 echo "rsync completed normally"
 exit
