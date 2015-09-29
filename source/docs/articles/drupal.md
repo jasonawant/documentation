@@ -29,8 +29,8 @@ See [Updating Modules Through Drupal](/docs/articles/drupal/updating-modules-thr
 ## Apache Solr
 [Apache Solr](/docs/articles/sites/apache-solr/) is an open source system for indexing and searching website content. We manage a cluster of fast Solr index servers that communicate with your site via these popular Drupal modules:
 
-​[Apache Solr](https://drupal.org/project/apachesolr) - 7.x-1.7 and 6.x-3.0  
-[Search API Solr](https://drupal.org/project/search_api_solr) - 7.x-1.9 and 8.x-1.0
+​[Apache Solr](https://drupal.org/project/apachesolr) - 7.x-1.x and 6.x-3.x  
+[Search API Solr](https://drupal.org/project/search_api_solr) - 7.x-1.x and 8.x-1.x
 
 For most sites, the apachesolr module is the easiest to configure and maintain, and includes functionality like facets and other great features.
 
