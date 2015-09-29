@@ -36,7 +36,7 @@ For most sites, the apachesolr module is the easiest to configure and maintain, 
 
 ## Launch Check
 
-Pantheon provides static site analysis as a service for Drupal sites to make best practice recommendations on site configurations. Go live with confidence using [Launch Check for Drupal](/docs/articles/drupal/launch-check-drupal-performance-and-configuration-analysis/).
+Pantheon provides static site analysis as a service for Drupal 7 sites to make best practice recommendations on site configurations. Launch check is not available for Drupal 6 or Drupal 8 sites at this time. Go live with confidence using [Launch Check for Drupal](/docs/articles/drupal/launch-check-drupal-performance-and-configuration-analysis/). 
 
 ## See Also
 - [Caching in Drupal Modules](/docs/articles/drupal/caching-in-drupal-modules/)
